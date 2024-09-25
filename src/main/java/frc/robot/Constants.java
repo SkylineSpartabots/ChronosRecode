@@ -10,7 +10,14 @@ public final class Constants {
 
     public static final class HardwarePorts {
         
-        public static final int intakeTopM = 0;
-        
+        public static final int intakeM = 0;
+
+    }
+
+    public static final class CurrentLimits {
+
+        public static final int intakeContinuousCurrentLimit = 0;
+        public static final int intakePeakCurrentLimit = 0;
+
     }
 }
