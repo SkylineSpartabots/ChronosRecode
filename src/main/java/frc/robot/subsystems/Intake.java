@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
@@ -15,67 +14,68 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  
-  private static Intake instance;
-  
-  public static Intake getInstance() {
-    if (instance == null) {
-      instance = new Intake();
+
+    private IntakeState _currentState = IntakeState.OFF;
+    private TalonFX _intakeM;
+
+    private double getVoltage() {
+        return _intakeM.getMotorVoltage().getValueAsDouble();
     }
-    return instance;
-  }
 
-  private IntakeState currentState = IntakeState.OFF;
-
-  private TalonFX intakeM;
-
-  public Intake() {
-    
-    intakeM = new TalonFX(Constants.HardwarePorts.intakeM);
-
-  }
-
-  private void configMotor(TalonFX motor, boolean inverted) {
-    
-    motor.setInverted(inverted);
-
-    TalonFXConfigurator configurator = motor.getConfigurator();
-    CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-    Slot0Configs slot0Configs = new Slot0Configs();
-
-    currentConfigs.SupplyCurrentLimitEnable = true;
-    currentConfigs.SupplyCurrentLimit = Constants.CurrentLimits.intakeContinuousCurrentLimit;
-    currentConfigs.SupplyCurrentThreshold = Constants.CurrentLimits.intakePeakCurrentLimit;
-    motor.setNeutralMode(NeutralModeValue.Coast);
-
-    configurator.apply(currentConfigs);
-  }
-
-  public enum IntakeState {
-    ON(0.6),
-    OFF(0),
-    REV(-0.6);
-
-    private double speed;
-
-    IntakeState(double speed) {
-      this.speed = speed;
+    private void setSpeed(double speed) {
+        _intakeM.set(speed);
     }
-  }
 
-  private double getVoltage() {
-    return intakeM.getMotorVoltage().getValueAsDouble();
-  }
+    public Intake() {
+        _intakeM = new TalonFX(Constants.HardwarePorts.intakeM);
+    }
 
-  private void setSpeed(double speed) {
-    intakeM.set(speed);
-  }
+    /** 
+     * Configures the Intake motor with the appropriate settings:
+     * - Inverted
+     * - Current Limits
+     * - Neutral Mode
+     */
+    private void configMotor(TalonFX motor, boolean inverted) {
+        motor.setInverted(inverted);
 
+        TalonFXConfigurator configurator = motor.getConfigurator();
+        CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
+        Slot0Configs slot0Configs = new Slot0Configs();
 
+        currentConfigs.SupplyCurrentLimitEnable = true;
+        currentConfigs.SupplyCurrentLimit = Constants.CurrentLimits.intakeContinuousCurrentLimit;
+        currentConfigs.SupplyCurrentThreshold = Constants.CurrentLimits.intakePeakCurrentLimit;
+        motor.setNeutralMode(NeutralModeValue.Coast);
 
+        configurator.apply(currentConfigs);
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
+ 
+    /** Determines the speed of the Intake motors */
+    public enum IntakeState {
+        ON(0.6),
+        OFF(0),
+        REV(-0.6);
+
+        private double speed;
+
+        IntakeState(double speed) {
+            this.speed = speed;
+        }
+    }
+
+    /* Static Instance Handling */
+    private static Intake instance;
+
+    public static Intake getInstance() {
+        if (instance == null) {
+            instance = new Intake();
+        }
+        return instance;
+    }
 }
