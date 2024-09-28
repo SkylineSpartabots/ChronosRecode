@@ -10,7 +10,21 @@ public final class Constants {
 
     public static final class HardwarePorts {
         
-        public static final int intakeTopM = 0;
-        
+        // I am not about to write all the IDs for the Drivetrain motors and cancoders
+        // Skip 1 - 12 reserved for drivetrain
+
+        // Shooter
+        public static final int shooterLeader = 20;
+        public static final int shooterFollower = 21;
+        // Intake
+        // Indexer
     }
+
+    public static final class CurrentLimits {
+        // TODO Deduce these values
+        public static final double shooterPeak = 0;
+        public static final double shooterContinuous = 0;
+    }
+
+
 }
