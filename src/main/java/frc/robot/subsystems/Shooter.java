@@ -22,27 +22,27 @@ public class Shooter extends SubsystemBase {
     return instance;
   }
 
-  private final TalonFX m_shooterLeader;
-  private final TalonFX m_shooterFollower;
+  private final TalonFX m_shooterTop;
+  private final TalonFX m_shooterBottom;
 
 //  private  final Follower follow = new Follower(Constants.HardwarePorts.shooterLeader, false );
 
-  private double leaderVelocitySetpoint = 0;
-  private  double followerVelocitySetpoint = 0;
+  private double topVelocitySetpoint = 0;
+  private  double bottomVelocitySetpoint = 0;
 
 
-  final VelocityVoltage leaderVelocityVoltage = new VelocityVoltage(0);
-  final VelocityVoltage followerVelocityVoltage = new VelocityVoltage(0);
+  final VelocityVoltage topVelocityVoltage = new VelocityVoltage(0);
+  final VelocityVoltage bottomVelocityVoltage = new VelocityVoltage(0);
 
   /** Constructor */
   public Shooter() {
-    m_shooterLeader = new TalonFX(Constants.HardwarePorts.shooterLeader);
-    m_shooterFollower = new TalonFX(Constants.HardwarePorts.shooterFollower);
+    m_shooterTop = new TalonFX(Constants.HardwarePorts.shooterTop);
+    m_shooterBottom = new TalonFX(Constants.HardwarePorts.shooterBottom);
 
-    configMotor(m_shooterLeader, true);
-    configMotor(m_shooterFollower, false);
+    configMotor(m_shooterTop, true);
+    configMotor(m_shooterBottom, false);
 
-//    m_shooterFollower.setControl(follow);
+//    m_shooterBottom.setControl(follow);
   }
 
   private void configMotor (TalonFX motor, boolean inverted){
@@ -59,28 +59,28 @@ public class Shooter extends SubsystemBase {
    * @param velocity velocity to set
    */
   public void setVelocity(double velocity) {
-      m_shooterLeader.setControl(leaderVelocityVoltage.withVelocity(velocity));
-      m_shooterFollower.setControl(followerVelocityVoltage.withVelocity(velocity));
+      m_shooterTop.setControl(topVelocityVoltage.withVelocity(velocity));
+      m_shooterBottom.setControl(bottomVelocityVoltage.withVelocity(velocity));
 
-      leaderVelocitySetpoint = velocity;
-      followerVelocitySetpoint = velocity;
+      topVelocitySetpoint = velocity;
+      bottomVelocitySetpoint = velocity;
   }
   /**
-   * Sets the velocity of the leader shooter motor
+   * Sets the velocity of the top shooter motor
    * @param velocity velocity to set
    */
-  public void setLeaderVelocity(double velocity) {
-    m_shooterLeader.setControl(leaderVelocityVoltage.withVelocity(velocity));
-    leaderVelocitySetpoint = velocity;
+  public void setTopVelocity(double velocity) {
+    m_shooterTop.setControl(topVelocityVoltage.withVelocity(velocity));
+    topVelocitySetpoint = velocity;
 
   }
   /**
-   * Sets the velocity of the follower shooter motor
+   * Sets the velocity of the bottom shooter motor
    * @param velocity velocity to set
    */
-  public void setFollowerVelocity(double velocity) {
-    m_shooterFollower.setControl(followerVelocityVoltage.withVelocity(velocity));
-    followerVelocitySetpoint = velocity;
+  public void setBottomVelocity(double velocity) {
+    m_shooterBottom.setControl(bottomVelocityVoltage.withVelocity(velocity));
+    bottomVelocitySetpoint = velocity;
 
   }
 
@@ -88,48 +88,48 @@ public class Shooter extends SubsystemBase {
 
   // Velocities
     /**
-   * Gets the m_shooterLeader velocity as a double
-   * @return shooterLeader velocity
+   * Gets the m_shooterTop velocity as a double
+   * @return shooterTop velocity
    */
-  public double getLeaderVelocity(){
-    return m_shooterLeader.getVelocity().getValueAsDouble();
+  public double getTopVelocity(){
+    return m_shooterTop.getVelocity().getValueAsDouble();
   }
   /**
-   * Gets the m_shooterFollower velocity as a double
-   * @return shooterFollower velocity
+   * Gets the m_shooterBottom velocity as a double
+   * @return shooterBottom velocity
    */
-  public double getFollowerVelocity(){
-    return m_shooterFollower.getVelocity().getValueAsDouble();
+  public double getBottomVelocity(){
+    return m_shooterBottom.getVelocity().getValueAsDouble();
   }
   /**
-   * Get both leader and follower motor velocities as an array
-   * @return Array {shooterLeaderVelocity, shooterFollowerVelocity}
+   * Get both top and bottom motor velocities as an array
+   * @return Array {shooterTopVelocity, shooterBottomVelocity}
    */
   public double[] getVelocities() {
-    return  new double[] {m_shooterLeader.getVelocity().getValueAsDouble(), m_shooterFollower.getVelocity().getValueAsDouble()};
+    return  new double[] {m_shooterTop.getVelocity().getValueAsDouble(), m_shooterBottom.getVelocity().getValueAsDouble()};
   }
 
 // Setpoints
   /**
-   * Setpoint of the shooter leader motor
-   * @return leaderVelocitySetpoint
+   * Setpoint of the shooter top motor
+   * @return topVelocitySetpoint
    */
-  public double getLeaderSetpoint() {
-    return  leaderVelocitySetpoint;
+  public double getTopSetpoint() {
+    return  topVelocitySetpoint;
   }
   /**
-   * Setpoint of the shooter follower motor
-   * @return followerVelocitySetpoint
+   * Setpoint of the shooter bottom motor
+   * @return bottomVelocitySetpoint
    */
-  public double getFollowerSetpoint() {
-    return followerVelocitySetpoint;
+  public double getBottomSetpoint() {
+    return bottomVelocitySetpoint;
   }
   /**
-   * Get both leader and follower motor setpoints as an array
-   * @return Array {leaderVelocitySetpoint, followerVelocitySetpoint}
+   * Get both top and bottom motor setpoints as an array
+   * @return Array {topVelocitySetpoint, bottomVelocitySetpoint}
    */
   public double[] getBothSetpoints() {
-    return new double[] { leaderVelocitySetpoint, followerVelocitySetpoint };
+    return new double[] { topVelocitySetpoint, bottomVelocitySetpoint };
   }
 
   @Override

@@ -14,8 +14,8 @@ public final class Constants {
         // Skip 1 - 12 reserved for drivetrain
 
         // Shooter
-        public static final int shooterLeader = 20;
-        public static final int shooterFollower = 21;
+        public static final int shooterTop = 20;
+        public static final int shooterBottom = 21;
         // Intake
         // Indexer
     }
