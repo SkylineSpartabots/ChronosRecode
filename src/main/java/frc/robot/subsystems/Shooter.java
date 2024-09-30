@@ -4,8 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -45,7 +50,32 @@ public class Shooter extends SubsystemBase {
 //    m_shooterBottom.setControl(follow);
   }
 
-  private void configMotor (TalonFX motor, boolean inverted){
+  private void configMotor (TalonFX motor, boolean inverted, double kS, double kV){
+    motor.setInverted(inverted);
+    // TODO Config currents - See constants.java
+            TalonFXConfiguration config = new TalonFXConfiguration();
+
+
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+
+        CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
+        // TODO Get these values
+//        currentLimitsConfigs.SupplyCurrentLimit = Constants.shooterContinuousCurrentLimit;
+//        currentLimitsConfigs.SupplyCurrentLimitEnable = true;
+//        currentLimitsConfigs.SupplyCurrentThreshold = Constants.shooterPeakCurrentLimit;
+
+            Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.kS = kS;
+        slot0Configs.kV = kV;
+
+
+        config.CurrentLimits = currentLimitsConfigs;
+        motor.getConfigurator().apply(config);
+        motor.getConfigurator().apply(slot0Configs);
+  }
+
+    private void configMotor (TalonFX motor, boolean inverted){
     motor.setInverted(inverted);
     // TODO Config currents - See constants.java
     // TODO Add feedforward control  kS and kV
