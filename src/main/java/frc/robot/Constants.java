@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 public final class Constants {
     
     public static double MaxSpeed = 4.5; //random number, need to get actual value
@@ -13,4 +15,9 @@ public final class Constants {
         public static final int intakeTopM = 0;
         
     }
+    public static final class colorSensor {
+        public static final Color ColorSensorBlueIntake = new Color(0.19,0.43, 0.37);
+        public static final Color ColorSensorRedIntake = new Color(0.44, 0.38, 0.16);
+    }
 }
+
