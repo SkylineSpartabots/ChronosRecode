@@ -4,12 +4,20 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.ColorSensorV3;
 
 
@@ -31,19 +39,28 @@ public class Indexer extends SubsystemBase {
     colorMatcherIndexer.addColorMatch(Constants.colorSensor.ColorSensorBlueIntake);
     colorMatcherIndexer.addColorMatch(Constants.colorSensor.ColorSensorRedIntake);
 
+    configMotor(m_Indexer);
   }
-  private void configMotor (TalonFX motor, boolean inverted){
-    motor.setInverted(inverted);
-    // DO I NEED TO USE THE CONFIG TO SET INVERTED??? COUNTERCLOCKWISE CLOCKWISE THING?
-    // TODO Config currents - See constants.java
-    // TODO Add feedforward control  kS and kV
-  }
+  
+  private void configMotor(TalonFX motor){
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
+        // values from old code, kF was set to 0.05 so im making a educated guess of the static and velocity ones
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.withKP(0.4); 
+
+        // config.CurrentLimits = currentLimitsConfigs;
+        motor.getConfigurator().apply(config);
+        motor.getConfigurator().apply(slot0Configs);
+  }
+  
   public enum IndexerStates {
     INTAKE(0.6),
-      INDEX(0.4),
+    INDEX(0.7),
     OFF(0),
-    REV(-0.8);
+    REV(-0.5);
 
     private double speed;
 
