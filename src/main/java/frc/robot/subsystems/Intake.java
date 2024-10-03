@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -18,16 +15,10 @@ public class Intake extends SubsystemBase {
     private IntakeState _currentState = IntakeState.OFF;
     private TalonFX _intakeM;
 
-    private double getVoltage() {
-        return _intakeM.getMotorVoltage().getValueAsDouble();
-    }
-
-    private void setSpeed(double speed) {
-        _intakeM.set(speed);
-    }
-
     public Intake() {
         _intakeM = new TalonFX(Constants.HardwarePorts.intakeM);
+
+        configMotor(_intakeM, false);
     }
 
     /** 
@@ -38,17 +29,25 @@ public class Intake extends SubsystemBase {
      */
     private void configMotor(TalonFX motor, boolean inverted) {
         motor.setInverted(inverted);
-
-        TalonFXConfigurator configurator = motor.getConfigurator();
-        CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-        Slot0Configs slot0Configs = new Slot0Configs();
-
-        currentConfigs.SupplyCurrentLimitEnable = true;
-        currentConfigs.SupplyCurrentLimit = Constants.CurrentLimits.intakeContinuousCurrentLimit;
-        currentConfigs.SupplyCurrentThreshold = Constants.CurrentLimits.intakePeakCurrentLimit;
         motor.setNeutralMode(NeutralModeValue.Coast);
 
-        configurator.apply(currentConfigs);
+        // TalonFXConfigurator configurator = motor.getConfigurator();
+        // CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
+        // Slot0Configs slot0Configs = new Slot0Configs();
+
+        // currentConfigs.SupplyCurrentLimitEnable = true;
+        // currentConfigs.SupplyCurrentLimit = Constants.CurrentLimits.intakeContinuousCurrentLimit;
+        // currentConfigs.SupplyCurrentThreshold = Constants.CurrentLimits.intakePeakCurrentLimit;
+
+        // configurator.apply(currentConfigs);
+    }
+
+    private double getVoltage() {
+        return _intakeM.getMotorVoltage().getValueAsDouble();
+    }
+
+    private void setSpeed(double speed) {
+        _intakeM.set(speed);
     }
 
     @Override
