@@ -17,38 +17,41 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 
-  /**
-   * Returns a singleton instance of the Shooter class
-   */
-  private static Shooter instance = null;
-  public static Shooter getInstance() {
-    if (instance == null) {
-      instance = new Shooter();
-    }
-    return instance;
-  }
+    /**
+     * Returns a singleton instance of the Shooter class
+     */
+    private static Shooter instance = null;
 
-  private final TalonFX m_leaderShooter;
-  private final TalonFX m_followerShooter;
+    public static Shooter getInstance() {
+        if (instance == null) {
+            instance = new Shooter();
+        }
+        return instance;
+    }
+
+    private final TalonFX m_leaderShooter;
+    private final TalonFX m_followerShooter;
 
 //  private  final Follower follow = new Follower(Constants.HardwarePorts.shooterLeader, false );
 
-  private double velocitySetpoint = 0;
+    private double velocitySetpoint = 0;
 
-  final VelocityVoltage topVelocityVoltage = new VelocityVoltage(0);
+    final VelocityVoltage topVelocityVoltage = new VelocityVoltage(0);
 
-  /** Constructor */
-  public Shooter() {
-    m_leaderShooter = new TalonFX(Constants.HardwarePorts.shooterTop);
-    m_followerShooter = new TalonFX(Constants.HardwarePorts.shooterBottom);
+    /**
+     * Constructor
+     */
+    public Shooter() {
+        m_leaderShooter = new TalonFX(Constants.HardwarePorts.shooterTop);
+        m_followerShooter = new TalonFX(Constants.HardwarePorts.shooterBottom);
 
-    m_followerShooter.setControl(new Follower(m_leaderShooter.getDeviceID(), true)); // TODO not sure which direction
+        m_followerShooter.setControl(new Follower(m_leaderShooter.getDeviceID(), true)); // TODO not sure which direction
 
-    configMotor(m_leaderShooter, true,0.01, 0.04);
-    configMotor(m_followerShooter, true,0.01, 0.04); // May need to be not inverted; false
-  }
+        configMotor(m_leaderShooter, true, 0.01, 0.04);
+        configMotor(m_followerShooter, true, 0.01, 0.04); // May need to be not inverted; false
+    }
 
-  private void configMotor(TalonFX motor, boolean inverted,  double kS, double kV){
+    private void configMotor(TalonFX motor, boolean inverted, double kS, double kV) {
         motor.setInverted(inverted);
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
@@ -71,65 +74,68 @@ public class Shooter extends SubsystemBase {
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.withKS(kS);
         slot0Configs.withKV(kV);
-        slot0Configs.withKP(0.12); 
+        slot0Configs.withKP(0.12);
 
         // config.CurrentLimits = currentLimitsConfigs;
         motor.getConfigurator().apply(config);
         motor.getConfigurator().apply(slot0Configs);
-  }
+    }
 
-  // Setters
+    // Setters
 
-  // Velocity
-  /**
-   * Sets the velocity of both the shooter motors
-   * @param velocity velocity to set
-   */
-  public void setVelocity(double velocity) {
-      m_leaderShooter.setControl(topVelocityVoltage.withVelocity(velocity));
-      velocitySetpoint = velocity;
-  }
-  
-  public void setSpeed(double speed) {
-    m_leaderShooter.set(speed);
-  }
+    // Velocity
 
-  public void setVoltage(double voltage) {
-    m_leaderShooter.setVoltage(voltage);
-  }
+    /**
+     * Sets the velocity of both the shooter motors
+     *
+     * @param velocity velocity to set
+     */
+    public void setVelocity(double velocity) {
+        m_leaderShooter.setControl(topVelocityVoltage.withVelocity(velocity));
+        velocitySetpoint = velocity;
+    }
 
-  // Getters
+    public void setSpeed(double speed) {
+        m_leaderShooter.set(speed);
+    }
+
+    public void setVoltage(double voltage) {
+        m_leaderShooter.setVoltage(voltage);
+    }
+
+    // Getters
 
     /**
      * Gets the velocity of the shooter motor
+     *
      * @return velocity
      */
-  public double getVelocity() {
-    return m_leaderShooter.getVelocity().getValueAsDouble();
-  }
-  
-  public double getSpeed() {
-    return m_leaderShooter.get();
-  }
+    public double getVelocity() {
+        return m_leaderShooter.getVelocity().getValueAsDouble();
+    }
 
-  public double getVoltage() {
-    return m_leaderShooter.getMotorVoltage().getValueAsDouble();
-  }
+    public double getSpeed() {
+        return m_leaderShooter.get();
+    }
+
+    public double getVoltage() {
+        return m_leaderShooter.getMotorVoltage().getValueAsDouble();
+    }
 
 // Setpoints
-  /**
-   * Setpoint of the shooter  motor
-   * @return velocitySetpoint
-   */
-  public double getVelocitySetpoint() {
-    return velocitySetpoint;
-  }
 
-  
+    /**
+     * Setpoint of the shooter  motor
+     *
+     * @return velocitySetpoint
+     */
+    public double getVelocitySetpoint() {
+        return velocitySetpoint;
+    }
 
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }
