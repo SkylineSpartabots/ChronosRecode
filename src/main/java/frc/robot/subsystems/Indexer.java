@@ -25,11 +25,11 @@ public class Indexer extends SubsystemBase {
     public Indexer() {
         m_Indexer = new TalonFX(Constants.HardwarePorts.indexerM); //TODO set the correct ID
 
-        m_Indexer.setInverted(false); // no idea
-        configMotor(m_Indexer);
+        configMotor(m_Indexer, false); // no idea
     }
 
-    private void configMotor(TalonFX motor) {
+    private void configMotor(TalonFX motor, boolean inverted) {
+        motor.setInverted(inverted);
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
