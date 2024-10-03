@@ -5,24 +5,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.I2C;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 
@@ -31,7 +19,7 @@ public class Indexer extends SubsystemBase {
 
   /** Creates a new Indexer. */
   public Indexer() {
-    m_Indexer = new TalonFX(Constants.HardwarePorts.indexer);
+    m_Indexer = new TalonFX(Constants.HardwarePorts.indexerM); //TODO set the correct ID
 
     m_Indexer.setInverted(false); // no idea
     configMotor(m_Indexer);
@@ -50,20 +38,19 @@ public class Indexer extends SubsystemBase {
   }
   
   public enum IndexerStates {
-    INTAKE(0.6),
+    INTAKE(0.75),
     INDEX(0.7),
     OFF(0),
     REV(-0.5);
 
-    private double speed;
+    final private double speed;
+    public double getValue() {
+        return speed;
+    }
 
-        public double getValue() {
-            return speed;
-        }
-
-        IndexerStates(double speed) {
-            this.speed = speed;
-        }
+    IndexerStates(double speed) {
+        this.speed = speed;
+    }
   }
 
   /**
@@ -72,6 +59,10 @@ public class Indexer extends SubsystemBase {
    */
   public void setSpeed(double percentageOutput){
     m_Indexer.set(percentageOutput);
+  }
+  
+  public void setSpeed(IndexerStates state) {
+    m_Indexer.set(state.getValue());
   }
 
 
