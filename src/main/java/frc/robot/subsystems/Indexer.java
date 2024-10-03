@@ -8,37 +8,32 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 
 public class Indexer extends SubsystemBase {
   private final TalonFX m_Indexer;
-  private int ballCount = 0;
-
-  private static final I2C.Port onboardI2C = I2C.Port.kOnboard;
-   private static ColorSensorV3 intakeSensor;
-
-  private static final ColorMatch colorMatcherIndexer = new ColorMatch();
-
 
   /** Creates a new Indexer. */
   public Indexer() {
     m_Indexer = new TalonFX(Constants.HardwarePorts.indexer);
-    intakeSensor = new ColorSensorV3(onboardI2C);
 
-    colorMatcherIndexer.addColorMatch(Constants.colorSensor.ColorSensorBlueIntake);
-    colorMatcherIndexer.addColorMatch(Constants.colorSensor.ColorSensorRedIntake);
-
+    m_Indexer.setInverted(false); // no idea
     configMotor(m_Indexer);
   }
   
@@ -47,11 +42,9 @@ public class Indexer extends SubsystemBase {
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-        // values from old code, kF was set to 0.05 so im making a educated guess of the static and velocity ones
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.withKP(0.4); 
 
-        // config.CurrentLimits = currentLimitsConfigs;
         motor.getConfigurator().apply(config);
         motor.getConfigurator().apply(slot0Configs);
   }
@@ -72,7 +65,6 @@ public class Indexer extends SubsystemBase {
             this.speed = speed;
         }
   }
-
 
   /**
    * Set the speed of the motor.
