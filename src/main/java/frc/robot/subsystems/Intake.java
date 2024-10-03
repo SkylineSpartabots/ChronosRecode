@@ -79,7 +79,7 @@ public class Intake extends SubsystemBase {
         return m_Intake.getMotorVoltage().getValueAsDouble();
     }
     
-    public void setCurrentState(IntakeState state) {
+    public void setState(IntakeState state) {
         currentState = state;
         m_Intake.set(state.speed);
     }
