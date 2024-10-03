@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,20 +42,19 @@ public class Intake extends SubsystemBase {
      */
     private void configMotor(TalonFX motor, boolean inverted) {
         motor.setInverted(inverted);
-        motor.setNeutralMode(NeutralModeValue.Coast);
 
-        // TalonFXConfigurator configurator = motor.getConfigurator();
-        // CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-        // Slot0Configs slot0Configs = new Slot0Configs();
+      TalonFXConfiguration config = new TalonFXConfiguration();
+      config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
-        // currentConfigs.SupplyCurrentLimitEnable = true;
-        // currentConfigs.SupplyCurrentLimit = Constants.CurrentLimits.intakeContinuousCurrentLimit;
-        // currentConfigs.SupplyCurrentThreshold = Constants.CurrentLimits.intakePeakCurrentLimit;
+      Slot0Configs slot0Configs = new Slot0Configs();
+      slot0Configs.withKP(0.4);
 
-        // configurator.apply(currentConfigs);
+      motor.getConfigurator().apply(config);
+      motor.getConfigurator().apply(slot0Configs);
     }
 
-    /**
+  /**
      * Determines the speed of the Intake motors
      */
     public enum IntakeState {
