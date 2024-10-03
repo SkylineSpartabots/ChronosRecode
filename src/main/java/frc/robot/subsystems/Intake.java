@@ -66,14 +66,28 @@ public class Intake extends SubsystemBase {
             this.speed = speed;
         }
     }
-
-    private double getVoltage() {
+    
+    public IntakeState getCurrentState() {
+        return currentState;
+    }
+    public double getSpeed() {
+        return m_Intake.get();
+    }
+    public double getVoltage() {
         return m_Intake.getMotorVoltage().getValueAsDouble();
     }
-
-    private void setSpeed(double speed) {
+    
+    public void setCurrentState(IntakeState state) {
+        currentState = state;
+        m_Intake.set(state.speed);
+    }
+    public void setSpeed(double speed) {
         m_Intake.set(speed);
     }
+    public void setVoltage(double voltage) {
+        m_Intake.setVoltage(voltage);
+    }
+    
 
     @Override
     public void periodic() {
