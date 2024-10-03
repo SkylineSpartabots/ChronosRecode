@@ -5,7 +5,6 @@ import frc.robot.subsystems.Indexer;
 
 public class SetIndexer extends Command {
     private final Indexer m_Indexer;
-    private double percentPower;
     
     private Indexer.IndexerStates state;
 
