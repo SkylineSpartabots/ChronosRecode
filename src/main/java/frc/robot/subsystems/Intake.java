@@ -12,16 +12,26 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
 
-    private IntakeState _currentState = IntakeState.OFF;
-    private TalonFX _intakeM;
+    private IntakeState currentState = IntakeState.OFF;
+    private TalonFX m_Intake;
 
-    public Intake() {
-        _intakeM = new TalonFX(Constants.HardwarePorts.intakeM);
+    /* Static Instance Handling */
+    private static Intake instance;
 
-        configMotor(_intakeM, false);
+    public static Intake getInstance() {
+        if (instance == null) {
+            instance = new Intake();
+        }
+        return instance;
     }
 
-    /** 
+    public Intake() {
+        m_Intake = new TalonFX(Constants.HardwarePorts.intakeM);
+
+        configMotor(m_Intake, false);
+    }
+
+    /**
      * Configures the Intake motor with the appropriate settings:
      * - Inverted
      * - Current Limits
@@ -42,20 +52,9 @@ public class Intake extends SubsystemBase {
         // configurator.apply(currentConfigs);
     }
 
-    private double getVoltage() {
-        return _intakeM.getMotorVoltage().getValueAsDouble();
-    }
-
-    private void setSpeed(double speed) {
-        _intakeM.set(speed);
-    }
-
-    @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
-    }
- 
-    /** Determines the speed of the Intake motors */
+    /**
+     * Determines the speed of the Intake motors
+     */
     public enum IntakeState {
         ON(0.6),
         OFF(0),
@@ -68,13 +67,18 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    /* Static Instance Handling */
-    private static Intake instance;
-
-    public static Intake getInstance() {
-        if (instance == null) {
-            instance = new Intake();
-        }
-        return instance;
+    private double getVoltage() {
+        return m_Intake.getMotorVoltage().getValueAsDouble();
     }
+
+    private void setSpeed(double speed) {
+        m_Intake.set(speed);
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
+
+
 }
