@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -35,21 +36,16 @@ public class Shooter extends SubsystemBase {
   private double topVelocitySetpoint = 0;
   private  double bottomVelocitySetpoint = 0;
 
-
   final VelocityVoltage topVelocityVoltage = new VelocityVoltage(0);
-  final VelocityVoltage bottomVelocityVoltage = new VelocityVoltage(0);
 
   /** Constructor */
   public Shooter() {
     m_leaderShooterTop = new TalonFX(Constants.HardwarePorts.shooterTop);
     m_followerShooterBottom = new TalonFX(Constants.HardwarePorts.shooterBottom);
-    
+
+    m_followerShooterBottom.setControl(new Follower(m_leaderShooterTop.getDeviceID(), true)); // TODO not sure which direction
     m_leaderShooterTop.setInverted(true);
-    m_followerShooterBottom.setInverted(false);
-
     configMotor(m_leaderShooterTop, 0.01, 0.04);
-
-//    m_shooterBottom.setControl(follow);
   }
 
   private void configMotor(TalonFX motor, double kS, double kV){
@@ -81,7 +77,6 @@ public class Shooter extends SubsystemBase {
         motor.getConfigurator().apply(slot0Configs);
   }
 
-
   // Setters
 
   // Velocity
@@ -91,53 +86,15 @@ public class Shooter extends SubsystemBase {
    */
   public void setVelocity(double velocity) {
       m_leaderShooterTop.setControl(topVelocityVoltage.withVelocity(velocity));
-      m_followerShooterBottom.setControl(bottomVelocityVoltage.withVelocity(velocity));
 
       topVelocitySetpoint = velocity;
       bottomVelocitySetpoint = velocity;
   }
-  /**
-   * Sets the velocity of the top shooter motor
-   * @param velocity velocity to set
-   */
-  public void setTopVelocity(double velocity) {
-    m_leaderShooterTop.setControl(topVelocityVoltage.withVelocity(velocity));
-    topVelocitySetpoint = velocity;
-
-  }
-  /**
-   * Sets the velocity of the bottom shooter motor
-   * @param velocity velocity to set
-   */
-  public void setBottomVelocity(double velocity) {
-    m_followerShooterBottom.setControl(bottomVelocityVoltage.withVelocity(velocity));
-    bottomVelocitySetpoint = velocity;
-
-  }
 
   // Getters
 
-  // Velocities
-    /**
-   * Gets the m_shooterTop velocity as a double
-   * @return shooterTop velocity
-   */
-  public double getTopVelocity(){
+  public double getVelocity() {
     return m_leaderShooterTop.getVelocity().getValueAsDouble();
-  }
-  /**
-   * Gets the m_shooterBottom velocity as a double
-   * @return shooterBottom velocity
-   */
-  public double getBottomVelocity(){
-    return m_followerShooterBottom.getVelocity().getValueAsDouble();
-  }
-  /**
-   * Get both top and bottom motor velocities as an array
-   * @return Array {shooterTopVelocity, shooterBottomVelocity}
-   */
-  public double[] getVelocities() {
-    return  new double[] {m_leaderShooterTop.getVelocity().getValueAsDouble(), m_followerShooterBottom.getVelocity().getValueAsDouble()};
   }
 
 // Setpoints
@@ -155,14 +112,7 @@ public class Shooter extends SubsystemBase {
   public double getBottomSetpoint() {
     return bottomVelocitySetpoint;
   }
-  /**
-   * Get both top and bottom motor setpoints as an array
-   * @return Array {topVelocitySetpoint, bottomVelocitySetpoint}
-   */
-  public double[] getBothSetpoints() {
-    return new double[] { topVelocitySetpoint, bottomVelocitySetpoint };
-  }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
