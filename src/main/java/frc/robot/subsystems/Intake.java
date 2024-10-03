@@ -43,18 +43,18 @@ public class Intake extends SubsystemBase {
     private void configMotor(TalonFX motor, boolean inverted) {
         motor.setInverted(inverted);
 
-      TalonFXConfiguration config = new TalonFXConfiguration();
-      config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-      config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
-      Slot0Configs slot0Configs = new Slot0Configs();
-      slot0Configs.withKP(0.4);
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.withKP(0.4);
 
-      motor.getConfigurator().apply(config);
-      motor.getConfigurator().apply(slot0Configs);
+        motor.getConfigurator().apply(config);
+        motor.getConfigurator().apply(slot0Configs);
     }
 
-  /**
+    /**
      * Determines the speed of the Intake motors
      */
     public enum IntakeState {
@@ -68,28 +68,32 @@ public class Intake extends SubsystemBase {
             this.speed = speed;
         }
     }
-    
+
     public IntakeState getCurrentState() {
         return currentState;
     }
+
     public double getSpeed() {
         return m_Intake.get();
     }
+
     public double getVoltage() {
         return m_Intake.getMotorVoltage().getValueAsDouble();
     }
-    
+
     public void setState(IntakeState state) {
         currentState = state;
         m_Intake.set(state.speed);
     }
+
     public void setSpeed(double speed) {
         m_Intake.set(speed);
     }
+
     public void setVoltage(double voltage) {
         m_Intake.setVoltage(voltage);
     }
-    
+
 
     @Override
     public void periodic() {

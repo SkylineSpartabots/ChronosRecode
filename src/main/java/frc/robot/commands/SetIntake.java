@@ -7,9 +7,10 @@ import frc.robot.subsystems.Intake;
 
 public class SetIntake extends Command {
     private final Intake s_Intake;
-    Intake.IntakeState state;
     
-    public SetIntake(Intake.IntakeState state){
+    Intake.IntakeState state;
+
+    public SetIntake(Intake.IntakeState state) {
         s_Intake = Intake.getInstance();
 
         addRequirements(s_Intake);
