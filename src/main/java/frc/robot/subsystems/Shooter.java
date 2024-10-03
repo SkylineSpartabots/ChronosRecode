@@ -28,27 +28,28 @@ public class Shooter extends SubsystemBase {
     return instance;
   }
 
-  private final TalonFX m_leaderShooterTop;
-  private final TalonFX m_followerShooterBottom;
+  private final TalonFX m_leaderShooter;
+  private final TalonFX m_followerShooter;
 
 //  private  final Follower follow = new Follower(Constants.HardwarePorts.shooterLeader, false );
 
-  private double topVelocitySetpoint = 0;
-  private  double bottomVelocitySetpoint = 0;
+  private double velocitySetpoint = 0;
 
   final VelocityVoltage topVelocityVoltage = new VelocityVoltage(0);
 
   /** Constructor */
   public Shooter() {
-    m_leaderShooterTop = new TalonFX(Constants.HardwarePorts.shooterTop);
-    m_followerShooterBottom = new TalonFX(Constants.HardwarePorts.shooterBottom);
+    m_leaderShooter = new TalonFX(Constants.HardwarePorts.shooterTop);
+    m_followerShooter = new TalonFX(Constants.HardwarePorts.shooterBottom);
 
-    m_followerShooterBottom.setControl(new Follower(m_leaderShooterTop.getDeviceID(), true)); // TODO not sure which direction
-    m_leaderShooterTop.setInverted(true);
-    configMotor(m_leaderShooterTop, 0.01, 0.04);
+    m_followerShooter.setControl(new Follower(m_leaderShooter.getDeviceID(), true)); // TODO not sure which direction
+
+    configMotor(m_leaderShooter, true,0.01, 0.04);
+    configMotor(m_followerShooter, true,0.01, 0.04); // May need to be not inverted; false
   }
 
-  private void configMotor(TalonFX motor, double kS, double kV){
+  private void configMotor(TalonFX motor, boolean inverted,  double kS, double kV){
+        motor.setInverted(inverted);
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
@@ -85,34 +86,48 @@ public class Shooter extends SubsystemBase {
    * @param velocity velocity to set
    */
   public void setVelocity(double velocity) {
-      m_leaderShooterTop.setControl(topVelocityVoltage.withVelocity(velocity));
+      m_leaderShooter.setControl(topVelocityVoltage.withVelocity(velocity));
+      velocitySetpoint = velocity;
+  }
+  
+  public void setSpeed(double speed) {
+    m_leaderShooter.set(speed);
+  }
 
-      topVelocitySetpoint = velocity;
-      bottomVelocitySetpoint = velocity;
+  public void setVoltage(double voltage) {
+    m_leaderShooter.setVoltage(voltage);
   }
 
   // Getters
 
+    /**
+     * Gets the velocity of the shooter motor
+     * @return velocity
+     */
   public double getVelocity() {
-    return m_leaderShooterTop.getVelocity().getValueAsDouble();
+    return m_leaderShooter.getVelocity().getValueAsDouble();
+  }
+  
+  public double getSpeed() {
+    return m_leaderShooter.get();
+  }
+
+  public double getVoltage() {
+    return m_leaderShooter.getMotorVoltage().getValueAsDouble();
   }
 
 // Setpoints
   /**
-   * Setpoint of the shooter top motor
-   * @return topVelocitySetpoint
+   * Setpoint of the shooter  motor
+   * @return velocitySetpoint
    */
-  public double getTopSetpoint() {
-    return  topVelocitySetpoint;
+  public double getVelocitySetpoint() {
+    return velocitySetpoint;
   }
-  /**
-   * Setpoint of the shooter bottom motor
-   * @return bottomVelocitySetpoint
-   */
-  public double getBottomSetpoint() {
-    return bottomVelocitySetpoint;
-  }
+
   
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
