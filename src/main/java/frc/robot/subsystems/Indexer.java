@@ -19,6 +19,15 @@ public class Indexer extends SubsystemBase {
 
     private IndexerStates currentState = IndexerStates.OFF;
     
+    private static Indexer instance;
+    
+    public static Indexer getInstance() {
+        if (instance == null) {
+            instance = new Indexer();
+        }
+        return instance;
+    }
+    
     /**
      * Creates a new Indexer.
      */
@@ -71,7 +80,7 @@ public class Indexer extends SubsystemBase {
         return m_Indexer.getMotorVoltage().getValueAsDouble();
     }
 
-    public void setCurrentState(IndexerStates state) {
+    public void setState(IndexerStates state) {
         currentState = state;
         m_Indexer.set(state.speed);
     }
