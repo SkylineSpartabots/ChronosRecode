@@ -12,18 +12,39 @@ public final class Constants {
 
     public static final class HardwarePorts {
         
-        public static final int intakeTopM = 0;
-        public static final int indexerM = 0;
-        
-        public static final int intakeM = 0;
-        // I am not about to write all the IDs for the Drivetrain motors and cancoders
-        // Skip 1 - 12 reserved for drivetrain
+        public static final int frontLeftSteer = 1;
+        public static final int frontLeftDrive = 2;
 
-        // Shooter
-        public static final int shooterTop = 20;
-        public static final int shooterBottom = 21;
-        // Intake
-        // Indexer
+        public static final int backLeftSteer = 3;
+        public static final int backLeftDrive = 4;
+
+        public static final int backRightSteer = 5;
+        public static final int backRightDrive = 6;
+
+        public static final int frontRightSteer = 7;
+        public static final int frontRightDrive = 8;
+
+        public static final int frontLeftCancoder = 1;
+        public static final int backLeftCancoder = 2;
+        public static final int backRightCancoder = 3;
+        public static final int frontRightCancoder = 4;
+
+
+        public static final int intakeM = 11;
+
+        public static final int leftIndexerM = 21;
+        public static final int rightIndexerM = 22;
+
+        public static final int leftShooterM = 31;
+        public static final int rightShooterM = 32;
+        
+        // public static final int hoodM = 41;
+    }
+
+    public static final class CurrentLimits {
+
+        public static final int intakeContinuousCurrentLimit = 0;
+        public static final int intakePeakCurrentLimit = 0;
     }
 }
 
