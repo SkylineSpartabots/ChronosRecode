@@ -24,6 +24,7 @@ public class SetIndexer extends Command {
     @Override
     public void end(boolean interrupted) {
     }
+    
     @Override
     public boolean isFinished() {
         return true;
