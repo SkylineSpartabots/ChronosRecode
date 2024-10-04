@@ -43,32 +43,21 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private double deadbandFactor = 0.8;
 
-    double translationDeadband = 0.05;
-    double rotDeadband = 0.05;
+    double translationDeadband = 0.1;
+    double rotDeadband = 0.1;
 
     private static CommandSwerveDrivetrain s_Swerve = TunerConstants.DriveTrain;
 
     PIDController pidHeading = new PIDController(4, 0, 3);
 
-    private boolean headingControlOn = false;
-    private boolean headingControl = false;
-    private double lastHeading = 0;
-
-    private boolean aligning = false;
-
-    //Vision m_Camera;
-
     private Field2d m_field = new Field2d();
 
     public static CommandSwerveDrivetrain getInstance(){
         if(s_Swerve == null){
-            s_Swerve = new CommandSwerveDrivetrain(TunerConstants.DrivetrainConstants, 250, TunerConstants.FrontLeft,TunerConstants.FrontRight,TunerConstants.BackLeft,TunerConstants.BackRight);
+            s_Swerve = new CommandSwerveDrivetrain(TunerConstants.DrivetrainConstants,
+             TunerConstants.FrontLeft,TunerConstants.FrontRight,TunerConstants.BackLeft,TunerConstants.BackRight);
         }
         return s_Swerve;
-    }
-
-    public void setHeadingTolerance(double headingToleranceDegrees){
-        pidHeading.setTolerance(Math.toRadians(headingToleranceDegrees));
     }
 
     private void limit() {
@@ -79,7 +68,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             configs.StatorCurrentLimit = 40;
             configs.StatorCurrentLimitEnable = true;
             
-
             module.getDriveMotor().getConfigurator().apply(configs);
             module.getSteerMotor().getConfigurator().apply(configs);
         }
@@ -87,92 +75,16 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules); //look here for parent library methods
-        
-
-        if (Utils.isSimulation()) {
-        }
         limit();
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
-        if (Utils.isSimulation()) {
-        }
         limit();
     }
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
-    }
-
-    public void resetOdoUtil(Pose2d pose){
-        try {
-            m_stateLock.writeLock().lock();
-
-            for (int i = 0; i < ModuleCount; ++i) {
-                Modules[i].resetPosition();
-                m_modulePositions[i] = Modules[i].getPosition(true);
-            }
-            m_odometry.resetPosition(Rotation2d.fromDegrees(m_yawGetter.getValue()), m_modulePositions, pose);
-        } finally {
-            m_stateLock.writeLock().unlock();
-        }
-    }
-
-    public void setLastHeading() {
-        lastHeading = getPose().getRotation().getRadians(); 
-    }
-
-    public void toggleHeadingControl() {
-        headingControl = !headingControl;
-    }
-
-    public void toggleAlignment() {
-        aligning = !aligning;
-    }
-
-    public double getHeading() {
-        return getPose().getRotation().getRadians();
-    }
-
-    public double scaledDeadBand(double input) {
-        return (deadbandFactor * Math.pow(input, 3)) + (1 - deadbandFactor) * input;
-    }
-
-    public SwerveRequest drive(double driverLY, double driverLX, double driverRX){
-        driverLX = scaledDeadBand(driverLX) * Constants.MaxSpeed;
-        driverLY = scaledDeadBand(driverLY) * Constants.MaxSpeed;
-
-        if (aligning) {
-            driverRX = pidAlignment(driverRX); // for testing
-        }
-
-        return new SwerveRequest.FieldCentric()
-        .withVelocityX(driverLY)
-        .withVelocityY(driverLX)
-        .withRotationalRate(driverRX * Constants.MaxAngularRate)
-        .withDeadband(Constants.MaxSpeed * translationDeadband)
-        .withRotationalDeadband(Constants.MaxAngularRate * rotDeadband)
-        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    }
-
-    public void resetOdo(Pose2d pose){
-        resetOdoUtil(pose);
-    }
-
-    public double pidAlignment(double driverRX) {
-        //bare bones
-            double desiredHeading = Math.PI;
-
-            double currentHeading = getPose().getRotation().getRadians();  
-
-            driverRX = pidHeading.calculate(currentHeading, desiredHeading);
-        
-        return driverRX;
-    }
-
-    public Pose2d getPose(){
-        return s_Swerve.m_odometry.getEstimatedPosition();
     }
 
     private Pose2d autoStartPose = new Pose2d(2.0, 2.0, new Rotation2d());
@@ -183,6 +95,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     @Override
     public void periodic() {
+            SmartDashboard.putNumber("bruh",1);
         }
-
     }

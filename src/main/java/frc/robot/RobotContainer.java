@@ -26,29 +26,34 @@ public class RobotContainer {
 
   private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // Drivetrain
 
-  double translationDeadband = 0.05;
-  double rotDeadband = 0.05;
+  double translationDeadband = 0.1;
+  double rotDeadband = 0.1;
 
   private static RobotContainer container;
   /* Setting up bindings for necessary control of the swerve drive platform */
-  public final CommandXboxController driver = new CommandXboxController(0); // Driver joystick
+  private final CommandXboxController driver = new CommandXboxController(0); // Driver joystick
+
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+  .withDeadband(Constants.MaxSpeed * translationDeadband)
+  .withRotationalDeadband(Constants.MaxAngularRate * rotDeadband)
+  .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   
     // driving in open loop
     /* Driver Buttons */
-    private final Trigger driverBack = driver.back();
-    private final Trigger driverStart = driver.start();
-    private final Trigger driverA = driver.a();
-    private final Trigger driverB = driver.b();
-    private final Trigger driverX = driver.x();
-    private final Trigger driverY = driver.y();
-    private final Trigger driverRightBumper = driver.rightBumper();
-    private final Trigger driverLeftBumper = driver.rightBumper();
-    private final Trigger driverLeftTrigger = driver.leftTrigger();
-    private final Trigger driverRightTrigger = driver.rightTrigger();
-    private final Trigger driverDpadUp = driver.povUp();
-    private final Trigger driverDpadDown = driver.povDown();
-    private final Trigger driverDpadLeft = driver.povLeft();
-    private final Trigger driverDpadRight = driver.povRight();
+    // private final Trigger driverBack = driver.back();
+    // private final Trigger driverStart = driver.start();
+    // private final Trigger driverA = driver.a();
+    // private final Trigger driverB = driver.b();
+    // private final Trigger driverX = driver.x();
+    // private final Trigger driverY = driver.y();
+    // private final Trigger driverRightBumper = driver.rightBumper();
+    // private final Trigger driverLeftBumper = driver.rightBumper();
+    // private final Trigger driverLeftTrigger = driver.leftTrigger();
+    // private final Trigger driverRightTrigger = driver.rightTrigger();
+    // private final Trigger driverDpadUp = driver.povUp();
+    // private final Trigger driverDpadDown = driver.povDown();
+    // private final Trigger driverDpadLeft = driver.povLeft();
+    // private final Trigger driverDpadRight = driver.povRight();
 
 
   // -----===--Subsystems--===----- 
@@ -76,14 +81,15 @@ public class RobotContainer {
   private void configureBindings() {
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-    drivetrain.applyRequest(() -> drivetrain.drive(-driver.getLeftY(), -driver.getLeftX(), -driver.getRightX()) // Drive counterclockwise with negative X (left)
-    ));
-    
-    driver.a().onTrue(new SetIntake(IntakeState.ON));
-    driver.x().onTrue(CommandFactory.Index());
-    driver.b().onTrue(CommandFactory.AllOff());
+      drivetrain.applyRequest(() -> drive.withVelocityX(-driver.getLeftX() * Constants.MaxSpeed).withVelocityY(-driver.getLeftY() * Constants.MaxSpeed).withRotationalRate(-driver.getRightX() * Constants.MaxAngularRate)) // Drive counterclockwise with negative X (left))
+    );
 
-    driver.rightTrigger().onTrue(CommandFactory.Shoot());
+    
+    // driver.a().onTrue(new SetIntake(IntakeState.ON));
+    // driver.x().onTrue(CommandFactory.Index());
+    // driver.b().onTrue(CommandFactory.AllOff());
+
+    // driver.rightTrigger().onTrue(CommandFactory.Shoot());
     // driver.a().onTrue(intake);
     // driver.x().onTrue(index or smth idk);
     // driver.b().onTrue();
