@@ -7,7 +7,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
+
+
 public class RobotContainer {
+
+  double translationDeadband = 0.05;
+  double rotDeadband = 0.05;
+
   public RobotContainer() {
     configureBindings();
   }
