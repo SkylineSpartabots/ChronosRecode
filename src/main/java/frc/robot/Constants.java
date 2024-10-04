@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 public final class Constants {
     
     public static double MaxSpeed = 4.5; //random number, need to get actual value
@@ -9,6 +11,11 @@ public final class Constants {
     public static final double triggerDeadzone = 0.2;
 
     public static final class HardwarePorts {
+        
+        public static final int intakeTopM = 0;
+        public static final int indexerM = 0;
+        
+        public static final int intakeM = 0;
         // I am not about to write all the IDs for the Drivetrain motors and cancoders
         // Skip 1 - 12 reserved for drivetrain
 
@@ -18,5 +25,5 @@ public final class Constants {
         // Intake
         // Indexer
     }
-
 }
+
