@@ -4,14 +4,98 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 
 public class Indexer extends SubsystemBase {
-  /** Creates a new Indexer. */
-  public Indexer() {}
+    private final TalonFX m_Indexer;
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    private IndexerStates currentState = IndexerStates.OFF;
+    
+    private static Indexer instance;
+    
+    public static Indexer getInstance() {
+        if (instance == null) {
+            instance = new Indexer();
+        }
+        return instance;
+    }
+    
+    /**
+     * Creates a new Indexer.
+     */
+    public Indexer() {
+        m_Indexer = new TalonFX(Constants.HardwarePorts.indexerM); //TODO set the correct ID
+
+        configMotor(m_Indexer, false); // no idea
+    }
+
+    private void configMotor(TalonFX motor, boolean inverted) {
+        motor.setInverted(inverted);
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.withKP(0.4);
+
+        motor.getConfigurator().apply(config);
+        motor.getConfigurator().apply(slot0Configs);
+    }
+
+    public enum IndexerStates {
+        INTAKE(0.75),
+        INDEX(0.7),
+        OFF(0),
+        REV(-0.5);
+
+        final private double speed;
+
+        public double getValue() {
+            return speed;
+        }
+
+        IndexerStates(double speed) {
+            this.speed = speed;
+        }
+    }
+
+
+    public IndexerStates getCurrentState() {
+        return currentState;
+    }
+
+    public double getSpeed() {
+        return m_Indexer.get();
+    }
+
+    public double getVoltage() {
+        return m_Indexer.getMotorVoltage().getValueAsDouble();
+    }
+
+    public void setState(IndexerStates state) {
+        currentState = state;
+        m_Indexer.set(state.speed);
+    }
+
+    public void setSpeed(double speed) {
+        m_Indexer.set(speed);
+    }
+
+    public void setVoltage(double voltage) {
+        m_Indexer.setVoltage(voltage);
+    }
+
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 public final class Constants {
     
     public static double MaxSpeed = 4.5; //random number, need to get actual value
@@ -43,6 +45,6 @@ public final class Constants {
 
         public static final int intakeContinuousCurrentLimit = 0;
         public static final int intakePeakCurrentLimit = 0;
-
     }
 }
+

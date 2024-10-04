@@ -4,78 +4,101 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  
-  private static Intake instance;
-  
-  public static Intake getInstance() {
-    if (instance == null) {
-      instance = new Intake();
+
+    private IntakeState currentState = IntakeState.OFF;
+    private TalonFX m_Intake;
+
+    /* Static Instance Handling */
+    private static Intake instance;
+
+    public static Intake getInstance() {
+        if (instance == null) {
+            instance = new Intake();
+        }
+        return instance;
     }
-    return instance;
-  }
 
-  private IntakeState currentState = IntakeState.OFF;
+    public Intake() {
+        m_Intake = new TalonFX(Constants.HardwarePorts.intakeM);
 
-  private TalonFX intakeM;
-
-  public Intake() {
-    
-    intakeM = new TalonFX(Constants.HardwarePorts.intakeM);
-
-  }
-
-  private void configMotor(TalonFX motor, boolean inverted) {
-    
-    motor.setInverted(inverted);
-
-    TalonFXConfigurator configurator = motor.getConfigurator();
-    CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-    Slot0Configs slot0Configs = new Slot0Configs();
-
-    currentConfigs.SupplyCurrentLimitEnable = true;
-    currentConfigs.SupplyCurrentLimit = Constants.CurrentLimits.intakeContinuousCurrentLimit;
-    currentConfigs.SupplyCurrentThreshold = Constants.CurrentLimits.intakePeakCurrentLimit;
-    motor.setNeutralMode(NeutralModeValue.Coast);
-
-    configurator.apply(currentConfigs);
-  }
-
-  public enum IntakeState {
-    ON(0.6),
-    OFF(0),
-    REV(-0.6);
-
-    private double speed;
-
-    IntakeState(double speed) {
-      this.speed = speed;
+        configMotor(m_Intake, false);
     }
-  }
 
-  private double getVoltage() {
-    return intakeM.getMotorVoltage().getValueAsDouble();
-  }
+    /**
+     * Configures the Intake motor with the appropriate settings:
+     * - Inverted
+     * - Current Limits
+     * - Neutral Mode
+     */
+    private void configMotor(TalonFX motor, boolean inverted) {
+        motor.setInverted(inverted);
 
-  private void setSpeed(double speed) {
-    intakeM.set(speed);
-  }
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.withKP(0.4);
+
+        motor.getConfigurator().apply(config);
+        motor.getConfigurator().apply(slot0Configs);
+    }
+
+    /**
+     * Determines the speed of the Intake motors
+     */
+    public enum IntakeState {
+        ON(0.6),
+        OFF(0),
+        REV(-0.6);
+
+        private double speed;
+
+        IntakeState(double speed) {
+            this.speed = speed;
+        }
+    }
+
+    public IntakeState getCurrentState() {
+        return currentState;
+    }
+
+    public double getSpeed() {
+        return m_Intake.get();
+    }
+
+    public double getVoltage() {
+        return m_Intake.getMotorVoltage().getValueAsDouble();
+    }
+
+    public void setState(IntakeState state) {
+        currentState = state;
+        m_Intake.set(state.speed);
+    }
+
+    public void setSpeed(double speed) {
+        m_Intake.set(speed);
+    }
+
+    public void setVoltage(double voltage) {
+        m_Intake.setVoltage(voltage);
+    }
 
 
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }
