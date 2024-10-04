@@ -15,7 +15,17 @@ public final class Constants {
         public static final int intakeTopM = 0;
         public static final int indexerM = 0;
         
+        public static final int intakeM = 0;
+
     }
+
+    public static final class CurrentLimits {
+
+        public static final int intakeContinuousCurrentLimit = 0;
+        public static final int intakePeakCurrentLimit = 0;
+
+    }
+  
     public static final class colorSensor {
         public static final Color ColorSensorBlueIntake = new Color(0.19,0.43, 0.37);
         public static final Color ColorSensorRedIntake = new Color(0.44, 0.38, 0.16);
