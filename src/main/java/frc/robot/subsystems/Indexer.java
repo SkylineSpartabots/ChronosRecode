@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -15,7 +16,8 @@ import frc.robot.Constants;
 
 
 public class Indexer extends SubsystemBase {
-    private final TalonFX m_Indexer;
+    private final TalonFX m_leaderIndexer;
+    private final TalonFX m_followerIndexer;
 
     private IndexerStates currentState = IndexerStates.OFF;
     
@@ -32,9 +34,14 @@ public class Indexer extends SubsystemBase {
      * Creates a new Indexer.
      */
     public Indexer() {
-        m_Indexer = new TalonFX(Constants.HardwarePorts.indexerM); //TODO set the correct ID
+        m_leaderIndexer = new TalonFX(Constants.HardwarePorts.leftIndexer); //TODO set the correct ID
+        m_followerIndexer = new TalonFX(Constants.HardwarePorts.rightIndexer); //TODO set the correct ID
 
-        configMotor(m_Indexer, false); // no idea
+        m_followerIndexer.setControl(new Follower(m_leaderIndexer.getDeviceID(), true)); // TODO not sure which direction
+
+
+        configMotor(m_leaderIndexer, false); // no idea
+        configMotor(m_followerIndexer, false); // no idea
     }
 
     private void configMotor(TalonFX motor, boolean inverted) {
@@ -73,24 +80,24 @@ public class Indexer extends SubsystemBase {
     }
 
     public double getSpeed() {
-        return m_Indexer.get();
+        return m_leaderIndexer.get();
     }
 
     public double getVoltage() {
-        return m_Indexer.getMotorVoltage().getValueAsDouble();
+        return m_leaderIndexer.getMotorVoltage().getValueAsDouble();
     }
 
     public void setState(IndexerStates state) {
         currentState = state;
-        m_Indexer.set(state.speed);
+        m_leaderIndexer.set(state.speed);
     }
 
     public void setSpeed(double speed) {
-        m_Indexer.set(speed);
+        m_leaderIndexer.set(speed);
     }
 
     public void setVoltage(double voltage) {
-        m_Indexer.setVoltage(voltage);
+        m_leaderIndexer.setVoltage(voltage);
     }
 
 
