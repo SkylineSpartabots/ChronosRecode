@@ -9,7 +9,6 @@ public final class Constants {
     public static final double triggerDeadzone = 0.2;
 
     public static final class HardwarePorts {
-        
         // I am not about to write all the IDs for the Drivetrain motors and cancoders
         // Skip 1 - 12 reserved for drivetrain
 
@@ -19,12 +18,5 @@ public final class Constants {
         // Intake
         // Indexer
     }
-
-    public static final class CurrentLimits {
-        // TODO Deduce these values
-        public static final double shooterPeak = 0;
-        public static final double shooterContinuous = 0;
-    }
-
 
 }
