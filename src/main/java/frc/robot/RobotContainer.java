@@ -32,7 +32,6 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   public final CommandXboxController driver = new CommandXboxController(0); // Driver joystick
 
-<<<<<<< HEAD
   
       private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(Constants.MaxSpeed * translationDeadband).withRotationalDeadband(Constants.MaxAngularRate * rotDeadband)
@@ -59,15 +58,6 @@ public class RobotContainer {
   private final Indexer s_Indexer = Indexer.getInstance();
   private final Intake s_Intake = Intake.getInstance();
   private final Shooter s_Shooter = Shooter.getInstance();
-=======
-  // private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // Drivetrain
-  
-  // -----===--Subsystems--===----- 
-  // private final Indexer s_Indexer = inde.getInstance();
-  // private final Intake s_Intake = Intake.getInstance();
-  // private final Pivot s_Pivot = Pivot.getInstance();
-  // private final Shooter s_Shooter = Shooter.getInstance();
->>>>>>> origin/Robot-Container
 
   // WHY ARE THE INSTANCES NOT IN THE BOILER OF EACH ONE OF THESE!!! -iggy
 
