@@ -27,7 +27,7 @@ public class CommandFactory {
     public static Command Index() {
         return new ParallelCommandGroup(
             new SetIndexer(IndexerStates.INDEX),
-            Commands.waitSeconds(1.0)
+            Commands.waitSeconds(1.0),
             new SetIndexer(IndexerStates.OFF)
         );
     }
