@@ -10,7 +10,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-<<<<<<< HEAD
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CommandFactory;
 import frc.robot.commands.SetIndexer;
@@ -21,8 +21,19 @@ import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Indexer.IndexerStates;
 import frc.robot.subsystems.Intake.IntakeState;
-=======
->>>>>>> origin/Robot-Container
+
+public class RobotContainer {
+
+  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // Drivetrain
+
+  double translationDeadband = 0.05;
+  double rotDeadband = 0.05;
+
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+            .withDeadband(Constants.MaxSpeed * translationDeadband).withRotationalDeadband(Constants.MaxAngularRate * rotDeadband)
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+  
+    public final CommandXboxController driver = new CommandXboxController(0); // Driver joystick
 
 public class RobotContainer {
   
@@ -76,18 +87,20 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void configureBindings() { //theoretical bindings bc SUBSYSTEMS ARENT ON THIS BRANCH
-<<<<<<< HEAD
+  private void configureBindings() {
+
+    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+    drivetrain.applyRequest(() -> drivetrain.drive(-driver.getLeftY(), -driver.getLeftX(), -driver.getRightX()) // Drive counterclockwise with negative X (left)
+    ));
+    
     driver.a().onTrue(new SetIntake(IntakeState.ON));
     driver.x().onTrue(CommandFactory.Index());
     driver.b().onTrue(CommandFactory.AllOff());
 
     driver.rightTrigger().onTrue(CommandFactory.Shoot());
-=======
     // driver.a().onTrue(intake);
     // driver.x().onTrue(index or smth idk);
     // driver.b().onTrue();
->>>>>>> origin/Robot-Container
     // driver.y().whileTrue(new SetIndexer(IndexerStates.SHOOTING));
 
     // NO SWERVE!
@@ -97,8 +110,6 @@ public class RobotContainer {
     // );
 
     // driverBack.onTrue(new InstantCommand(() -> drivetrain.resetOdo(new Pose2d(0, 0, new Rotation2d()))));
-
-
   }
 
   public Command getAutonomousCommand() {
