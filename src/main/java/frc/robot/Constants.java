@@ -38,13 +38,10 @@ public final class Constants {
         public static final int leftShooter = 31;
         public static final int rightShooter = 32;
         
-        // public static final int hoodM = 41;
     }
 
     public static final class CurrentLimits {
 
-        public static final int intakeContinuousCurrentLimit = 0;
-        public static final int intakePeakCurrentLimit = 0;
     }
 }
 
