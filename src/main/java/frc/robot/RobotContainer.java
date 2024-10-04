@@ -29,24 +29,10 @@ public class RobotContainer {
   double translationDeadband = 0.05;
   double rotDeadband = 0.05;
 
-    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(Constants.MaxSpeed * translationDeadband).withRotationalDeadband(Constants.MaxAngularRate * rotDeadband)
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-  
-    public final CommandXboxController driver = new CommandXboxController(0); // Driver joystick
-
-public class RobotContainer {
-  
-  public static final double translationDeadband = 0.1;
-  public static final double rotDeadband = 0.1;
   private static RobotContainer container;
   /* Setting up bindings for necessary control of the swerve drive platform */
   public final CommandXboxController driver = new CommandXboxController(0); // Driver joystick
-
   
-      private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(Constants.MaxSpeed * translationDeadband).withRotationalDeadband(Constants.MaxAngularRate * rotDeadband)
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
     // driving in open loop
     /* Driver Buttons */
     private final Trigger driverBack = driver.back();
