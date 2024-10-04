@@ -23,7 +23,6 @@ public class SetIndexer extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_Indexer.setState(Indexer.IndexerStates.OFF);
     }
     @Override
     public boolean isFinished() {

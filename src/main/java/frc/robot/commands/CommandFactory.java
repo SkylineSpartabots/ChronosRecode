@@ -17,8 +17,18 @@ public class CommandFactory {
         return new SequentialCommandGroup(
             new SetShooter(10500),
             Commands.waitSeconds(1.0),
+             new SetIndexer(IndexerStates.INDEX),
+            Commands.waitSeconds(2.0),
+            new SetShooter(0),
+            new SetIndexer(IndexerStates.OFF)
+        );
+    }
+
+    public static Command Index() {
+        return new ParallelCommandGroup(
             new SetIndexer(IndexerStates.INDEX),
-            Commands.waitSeconds(2.0)
+            Commands.waitSeconds(1.0)
+            new SetIndexer(IndexerStates.OFF)
         );
     }
 }
