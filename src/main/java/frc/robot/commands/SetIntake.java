@@ -23,7 +23,6 @@ public class SetIntake extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        s_Intake.setState(Intake.IntakeState.OFF);
     }
 
     @Override

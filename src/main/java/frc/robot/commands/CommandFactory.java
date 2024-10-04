@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Indexer.IndexerStates;
+import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.commands.SetShooter;
 import frc.robot.commands.SetIntake;
 import frc.robot.commands.SetIndexer;
@@ -29,6 +30,13 @@ public class CommandFactory {
             new SetIndexer(IndexerStates.INDEX),
             Commands.waitSeconds(1.0),
             new SetIndexer(IndexerStates.OFF)
+        );
+    }
+    public static Command AllOff(){
+        return new ParallelCommandGroup(
+            new SetIndexer(IndexerStates.OFF),
+            new SetIntake(IntakeState.OFF),
+            new SetShooter(0)
         );
     }
 }
