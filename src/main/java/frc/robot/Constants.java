@@ -9,15 +9,14 @@ public final class Constants {
     public static final double triggerDeadzone = 0.2;
 
     public static final class HardwarePorts {
-        
-        public static final int intakeM = 0;
+        // I am not about to write all the IDs for the Drivetrain motors and cancoders
+        // Skip 1 - 12 reserved for drivetrain
 
+        // Shooter
+        public static final int shooterTop = 20;
+        public static final int shooterBottom = 21;
+        // Intake
+        // Indexer
     }
 
-    public static final class CurrentLimits {
-
-        public static final int intakeContinuousCurrentLimit = 0;
-        public static final int intakePeakCurrentLimit = 0;
-
-    }
 }
