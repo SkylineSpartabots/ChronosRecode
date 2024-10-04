@@ -22,6 +22,12 @@ public final class Constants {
         public static final int frontRightSteer = 7;
         public static final int frontRightDrive = 8;
 
+        public static final int frontLeftCancoder = 1;
+        public static final int backLeftCancoder = 2;
+        public static final int backRightCancoder = 3;
+        public static final int frontRightCancoder = 4;
+
+
         public static final int intakeM = 11;
 
         public static final int leftIndexerM = 21;
