@@ -10,6 +10,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CommandFactory;
 import frc.robot.commands.SetIndexer;
@@ -20,6 +21,8 @@ import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Indexer.IndexerStates;
 import frc.robot.subsystems.Intake.IntakeState;
+=======
+>>>>>>> origin/Robot-Container
 
 public class RobotContainer {
   
@@ -29,6 +32,7 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   public final CommandXboxController driver = new CommandXboxController(0); // Driver joystick
 
+<<<<<<< HEAD
   
       private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(Constants.MaxSpeed * translationDeadband).withRotationalDeadband(Constants.MaxAngularRate * rotDeadband)
@@ -55,6 +59,15 @@ public class RobotContainer {
   private final Indexer s_Indexer = Indexer.getInstance();
   private final Intake s_Intake = Intake.getInstance();
   private final Shooter s_Shooter = Shooter.getInstance();
+=======
+  // private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // Drivetrain
+  
+  // -----===--Subsystems--===----- 
+  // private final Indexer s_Indexer = inde.getInstance();
+  // private final Intake s_Intake = Intake.getInstance();
+  // private final Pivot s_Pivot = Pivot.getInstance();
+  // private final Shooter s_Shooter = Shooter.getInstance();
+>>>>>>> origin/Robot-Container
 
   // WHY ARE THE INSTANCES NOT IN THE BOILER OF EACH ONE OF THESE!!! -iggy
 
@@ -74,11 +87,17 @@ public class RobotContainer {
   }
 
   private void configureBindings() { //theoretical bindings bc SUBSYSTEMS ARENT ON THIS BRANCH
+<<<<<<< HEAD
     driver.a().onTrue(new SetIntake(IntakeState.ON));
     driver.x().onTrue(CommandFactory.Index());
     driver.b().onTrue(CommandFactory.AllOff());
 
     driver.rightTrigger().onTrue(CommandFactory.Shoot());
+=======
+    // driver.a().onTrue(intake);
+    // driver.x().onTrue(index or smth idk);
+    // driver.b().onTrue();
+>>>>>>> origin/Robot-Container
     // driver.y().whileTrue(new SetIndexer(IndexerStates.SHOOTING));
 
     // NO SWERVE!
