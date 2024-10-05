@@ -58,9 +58,9 @@ public class Intake extends SubsystemBase {
      * Determines the speed of the Intake motors
      */
     public enum IntakeState {
-        ON(0.6),
+        ON(0.50),
         OFF(0),
-        REV(-0.6);
+        REV(-0.3);
 
         private double speed;
 

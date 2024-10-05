@@ -41,14 +41,16 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
 
-    private double deadbandFactor = 0.8;
+    private double deadbandFactor = 0.6;
 
     double translationDeadband = 0.1;
     double rotDeadband = 0.1;
 
     private static CommandSwerveDrivetrain s_Swerve = TunerConstants.DriveTrain;
 
-    PIDController pidHeading = new PIDController(4, 0, 3);
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric();
+
+    PIDController pidHeading = new PIDController(8, 0, 1);
 
     private Field2d m_field = new Field2d();
 
@@ -85,6 +87,40 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
+    }
+
+    public SwerveRequest drive(double driverLX, double driverLY, double driverRX) {
+        return new SwerveRequest.FieldCentric()
+        .withVelocityX(scaledDeadBand(driverLX))
+        .withVelocityY(scaledDeadBand(driverLY))
+        .withRotationalRate(scaledDeadBand(driverRX) * Constants.MaxAngularRate)
+        .withDeadband(Constants.MaxSpeed * 0.05)
+        .withRotationalDeadband(Constants.MaxAngularRate * 0.05)
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    }
+
+    public double scaledDeadBand(double input) {
+        return (deadbandFactor * Math.pow(input, 3)) + (1 - deadbandFactor) * input;
+    }
+
+    public void resetOdo(Pose2d pose){
+        resetOdoUtil(pose);
+        resetOdoUtil(pose);
+        resetOdoUtil(pose);
+    }
+
+    public void resetOdoUtil(Pose2d pose){
+        try {
+            m_stateLock.writeLock().lock();
+
+            for (int i = 0; i < ModuleCount; ++i) {
+                Modules[i].resetPosition();
+                m_modulePositions[i] = Modules[i].getPosition(true);
+            }
+            m_odometry.resetPosition(Rotation2d.fromDegrees(m_yawGetter.getValue()), m_modulePositions, pose);
+        } finally {
+            m_stateLock.writeLock().unlock();
+        }
     }
 
     private Pose2d autoStartPose = new Pose2d(2.0, 2.0, new Rotation2d());

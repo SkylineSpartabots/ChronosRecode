@@ -37,7 +37,7 @@ public class Indexer extends SubsystemBase {
         m_leaderIndexer = new TalonFX(Constants.HardwarePorts.leftIndexer); //TODO set the correct ID
         m_followerIndexer = new TalonFX(Constants.HardwarePorts.rightIndexer); //TODO set the correct ID
 
-        m_followerIndexer.setControl(new Follower(m_leaderIndexer.getDeviceID(), true)); // TODO not sure which direction
+        m_followerIndexer.setControl(new Follower(m_leaderIndexer.getDeviceID(), false)); // TODO not sure which direction
 
 
         configMotor(m_leaderIndexer, false); // no idea
@@ -58,10 +58,9 @@ public class Indexer extends SubsystemBase {
     }
 
     public enum IndexerStates {
-        INTAKE(0.75),
         INDEX(0.7),
         OFF(0),
-        REV(-0.5);
+        REV(-0.4);
 
         final private double speed;
 

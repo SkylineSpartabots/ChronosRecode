@@ -47,14 +47,13 @@ public class Shooter extends SubsystemBase {
 
         m_followerShooter.setControl(new Follower(m_leaderShooter.getDeviceID(), true)); // TODO not sure which direction
 
-        configMotor(m_leaderShooter, true, 0.01, 0.04);
-        configMotor(m_followerShooter, true, 0.01, 0.04); // May need to be not inverted; false
+        configMotor(m_leaderShooter, true, 0.005, 0.025);
     }
 
     private void configMotor(TalonFX motor, boolean inverted, double kS, double kV) {
         motor.setInverted(inverted);
         TalonFXConfiguration config = new TalonFXConfiguration();
-        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
         // CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();

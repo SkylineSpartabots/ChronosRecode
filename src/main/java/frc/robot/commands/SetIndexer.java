@@ -2,6 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Indexer.IndexerStates;
+import frc.robot.subsystems.Intake.IntakeState;
 
 public class SetIndexer extends Command {
     private final Indexer m_Indexer;
@@ -12,7 +14,6 @@ public class SetIndexer extends Command {
         m_Indexer = Indexer.getInstance();
         
         this.state = state;
-        
         addRequirements(m_Indexer);
     }
 
@@ -23,10 +24,11 @@ public class SetIndexer extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        m_Indexer.setState(IndexerStates.OFF);
     }
     
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }

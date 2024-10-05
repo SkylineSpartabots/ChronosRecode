@@ -16,10 +16,10 @@ public class CommandFactory {
 
     public static Command Shoot() {
         return new SequentialCommandGroup(
-            new SetShooter(10500),
+            new SetShooter(100),
             Commands.waitSeconds(1.0),
              new SetIndexer(IndexerStates.INDEX),
-            Commands.waitSeconds(2.0),
+            Commands.waitSeconds(1.0),
             new SetShooter(0),
             new SetIndexer(IndexerStates.OFF)
         );
@@ -28,7 +28,7 @@ public class CommandFactory {
     public static Command Index() {
         return new SequentialCommandGroup(
             new SetIndexer(IndexerStates.INDEX),
-            Commands.waitSeconds(1.0),
+            Commands.waitSeconds(0.5),
             new SetIndexer(IndexerStates.OFF)
         );
     }

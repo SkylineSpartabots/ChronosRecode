@@ -7,8 +7,11 @@ package frc.robot;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -40,14 +43,14 @@ public class RobotContainer {
   
     // driving in open loop
     /* Driver Buttons */
-    // private final Trigger driverBack = driver.back();
+    private final Trigger driverBack = driver.back();
     // private final Trigger driverStart = driver.start();
     // private final Trigger driverA = driver.a();
     // private final Trigger driverB = driver.b();
     // private final Trigger driverX = driver.x();
     // private final Trigger driverY = driver.y();
-    // private final Trigger driverRightBumper = driver.rightBumper();
-    // private final Trigger driverLeftBumper = driver.rightBumper();
+    private final Trigger driverRightBumper = driver.rightBumper();
+    private final Trigger driverLeftBumper = driver.rightBumper();
     // private final Trigger driverLeftTrigger = driver.leftTrigger();
     // private final Trigger driverRightTrigger = driver.rightTrigger();
     // private final Trigger driverDpadUp = driver.povUp();
@@ -81,15 +84,19 @@ public class RobotContainer {
   private void configureBindings() {
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-      drivetrain.applyRequest(() -> drive.withVelocityX(-driver.getLeftX() * Constants.MaxSpeed).withVelocityY(-driver.getLeftY() * Constants.MaxSpeed).withRotationalRate(-driver.getRightX() * Constants.MaxAngularRate)) // Drive counterclockwise with negative X (left))
-    );
+      drivetrain.applyRequest(() -> drivetrain.drive(-driver.getLeftY(), -driver.getLeftX(), -driver.getRightX())) // Drive counterclockwise with negative X (left))
+    ); // this better work now omg
 
+    driverBack.onTrue(new InstantCommand(() -> drivetrain.resetOdo(new Pose2d(0, 0, new Rotation2d()))));
     
-    // driver.a().onTrue(new SetIntake(IntakeState.ON));
-    // driver.x().onTrue(CommandFactory.Index());
-    // driver.b().onTrue(CommandFactory.AllOff());
+    driver.a().onTrue(new SetIntake(IntakeState.ON));
+    driver.y().onTrue(CommandFactory.Shoot());
+    driver.b().onTrue(CommandFactory.AllOff());
 
-    // driver.rightTrigger().onTrue(CommandFactory.Shoot());
+    driver.rightBumper().whileTrue(new SetIndexer(IndexerStates.INDEX));
+    driver.leftBumper().whileTrue(new SetIndexer(IndexerStates.REV));
+
+    // driver.rightTrigger().onTrue(Comma\ndFactory.Shoot());
     // driver.a().onTrue(intake);
     // driver.x().onTrue(index or smth idk);
     // driver.b().onTrue();
