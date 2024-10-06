@@ -67,7 +67,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
             configs.SupplyCurrentLimit = 20;
             configs.SupplyCurrentLimitEnable = true;
-            configs.StatorCurrentLimit = 40;
+            configs.StatorCurrentLimit = 30;
             configs.StatorCurrentLimitEnable = true;
             
             module.getDriveMotor().getConfigurator().apply(configs);
