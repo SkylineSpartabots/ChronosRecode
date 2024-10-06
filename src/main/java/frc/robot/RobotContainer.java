@@ -90,7 +90,6 @@ public class RobotContainer {
     driverBack.onTrue(new InstantCommand(() -> drivetrain.resetOdo(new Pose2d(0, 0, new Rotation2d()))));
     
     driver.a().onTrue(new SetIntake(IntakeState.ON));
-    driver.x().onTrue(new SetIntake(IntakeState.REV));
     driver.y().onTrue(CommandFactory.Shoot());
     driver.b().onTrue(CommandFactory.AllOff());
 

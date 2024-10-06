@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -51,14 +50,8 @@ public class Indexer extends SubsystemBase {
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-        CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
-        currentLimitsConfigs.SupplyCurrentLimit = 25;
-        currentLimitsConfigs.SupplyCurrentLimitEnable = true;
-        currentLimitsConfigs.SupplyCurrentThreshold =35;
-
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.withKP(0.4);
-        config.CurrentLimits = currentLimitsConfigs;
 
         motor.getConfigurator().apply(config);
         motor.getConfigurator().apply(slot0Configs);

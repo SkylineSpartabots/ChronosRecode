@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -48,15 +47,8 @@ public class Intake extends SubsystemBase {
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
-
-        CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
-        currentLimitsConfigs.SupplyCurrentLimit = 20;
-        currentLimitsConfigs.SupplyCurrentLimitEnable = true;
-        currentLimitsConfigs.SupplyCurrentThreshold = 30;
-        
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.withKP(0.4);
-        config.CurrentLimits = currentLimitsConfigs;
 
         motor.getConfigurator().apply(config);
         motor.getConfigurator().apply(slot0Configs);
@@ -66,7 +58,7 @@ public class Intake extends SubsystemBase {
      * Determines the speed of the Intake motors
      */
     public enum IntakeState {
-        ON(0.5),
+        ON(0.50),
         OFF(0),
         REV(-0.3);
 

@@ -4,20 +4,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 public class SetShooter extends Command {
-    private final Shooter s_Shooter;
+    private final Shooter m_Shooter;
 
     private double velocity;
 
     public SetShooter(double velocity) {
-        s_Shooter = Shooter.getInstance();
+        m_Shooter = Shooter.getInstance();
 
         this.velocity = velocity;
-        addRequirements(s_Shooter);
+        addRequirements(m_Shooter);
     }
 
     @Override
     public void initialize() {
-        s_Shooter.setVelocity(velocity);
+        m_Shooter.setVelocity(velocity);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class SetShooter extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(s_Shooter.getVelocity() - velocity) < 5;
+        return true;
     }
 }

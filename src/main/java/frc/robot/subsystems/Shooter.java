@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -57,10 +56,10 @@ public class Shooter extends SubsystemBase {
         config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
-        CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
-        currentLimitsConfigs.SupplyCurrentLimit = 20;
-        currentLimitsConfigs.SupplyCurrentLimitEnable = true;
-        currentLimitsConfigs.SupplyCurrentThreshold = 35;
+        // CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
+        //currentLimitsConfigs.SupplyCurrentLimit = Constants.shooterContinuousCurrentLimit;
+        //currentLimitsConfigs.SupplyCurrentLimitEnable = true;
+        //currentLimitsConfigs.SupplyCurrentThreshold = Constants.shooterPeakCurrentLimit;
 
         /*
           No current limits for shooter were used in orginal chornos
@@ -76,7 +75,7 @@ public class Shooter extends SubsystemBase {
         slot0Configs.withKV(kV);
         slot0Configs.withKP(0.12);
 
-        config.CurrentLimits = currentLimitsConfigs;
+        // config.CurrentLimits = currentLimitsConfigs;
         motor.getConfigurator().apply(config);
         motor.getConfigurator().apply(slot0Configs);
     }
