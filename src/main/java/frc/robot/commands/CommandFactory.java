@@ -38,4 +38,11 @@ public class CommandFactory {
             new SetShooter(0)
         );
     }
+
+    public static Command IntakeIndex() {
+        return new ParallelCommandGroup(
+            new SetIntake(IntakeState.ON),
+            new SetIndexer(IndexerStates.INDEX)
+        );
+    }
 }

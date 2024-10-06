@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -53,6 +55,8 @@ public class Intake extends SubsystemBase {
         currentLimitsConfigs.SupplyCurrentLimit = 20;
         currentLimitsConfigs.SupplyCurrentLimitEnable = true;
         currentLimitsConfigs.SupplyCurrentThreshold = 30;
+        currentLimitsConfigs.StatorCurrentLimit = 30;
+        currentLimitsConfigs.StatorCurrentLimitEnable = true;
         
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.withKP(0.4);
@@ -76,15 +80,15 @@ public class Intake extends SubsystemBase {
             this.speed = speed;
         }
     }
-
+    @AutoLogOutput(key = "Intake/State")
     public IntakeState getCurrentState() {
         return currentState;
     }
-
+    @AutoLogOutput(key = "Intake/Speed")
     public double getSpeed() {
         return m_Intake.get();
     }
-
+    @AutoLogOutput(key = "Intake/Voltage")
     public double getVoltage() {
         return m_Intake.getMotorVoltage().getValueAsDouble();
     }

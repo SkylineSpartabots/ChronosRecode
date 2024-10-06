@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -80,15 +82,15 @@ public class Indexer extends SubsystemBase {
         }
     }
 
-
+    @AutoLogOutput(key = "Indexer/State")
     public IndexerStates getCurrentState() {
         return currentState;
     }
-
+    @AutoLogOutput(key = "Indexer/Speed")
     public double getSpeed() {
         return m_leaderIndexer.get();
     }
-
+    @AutoLogOutput(key = "Indexer/Voltage")
     public double getVoltage() {
         return m_leaderIndexer.getMotorVoltage().getValueAsDouble();
     }

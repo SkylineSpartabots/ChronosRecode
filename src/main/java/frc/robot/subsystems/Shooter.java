@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -110,14 +112,15 @@ public class Shooter extends SubsystemBase {
      *
      * @return velocity
      */
+    @AutoLogOutput(key = "Shooter/Velocity")
     public double getVelocity() {
         return m_leaderShooter.getVelocity().getValueAsDouble();
     }
-
+    @AutoLogOutput(key = "Shooter/Speed")
     public double getSpeed() {
         return m_leaderShooter.get();
     }
-
+    @AutoLogOutput(key = "Shooter/Voltage")
     public double getVoltage() {
         return m_leaderShooter.getMotorVoltage().getValueAsDouble();
     }
@@ -129,6 +132,7 @@ public class Shooter extends SubsystemBase {
      *
      * @return velocitySetpoint
      */
+    @AutoLogOutput(key = "Shooter/VelocitySetpoint")
     public double getVelocitySetpoint() {
         return velocitySetpoint;
     }

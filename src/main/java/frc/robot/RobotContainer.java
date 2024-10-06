@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CommandFactory;
 import frc.robot.commands.SetIndexer;
 import frc.robot.commands.SetIntake;
+import frc.robot.commands.SetShooter;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Indexer.IndexerStates;
 import frc.robot.subsystems.Intake.IntakeState;
@@ -91,11 +91,14 @@ public class RobotContainer {
     
     driver.a().onTrue(new SetIntake(IntakeState.ON));
     driver.x().onTrue(new SetIntake(IntakeState.REV));
-    driver.y().onTrue(CommandFactory.Shoot());
+    driver.y().onTrue(new SetShooter(0));
     driver.b().onTrue(CommandFactory.AllOff());
 
     driver.rightBumper().whileTrue(new SetIndexer(IndexerStates.INDEX));
     driver.leftBumper().whileTrue(new SetIndexer(IndexerStates.REV));
+
+    driver.rightTrigger().onTrue(CommandFactory.Shoot());
+    driver.leftTrigger().onTrue(CommandFactory.IntakeIndex());
 
     // driver.rightTrigger().onTrue(Comma\ndFactory.Shoot());
     // driver.a().onTrue(intake);

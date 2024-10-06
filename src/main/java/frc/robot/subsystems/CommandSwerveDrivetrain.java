@@ -4,6 +4,9 @@ import java.sql.Driver;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
 import org.opencv.core.Point;
 
 import com.ctre.phoenix6.Utils;
@@ -19,6 +22,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
@@ -41,10 +46,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
 
-    private double deadbandFactor = 0.6;
+    private double deadbandFactor = 0.1;
 
     double translationDeadband = 0.1;
-    double rotDeadband = 0.1;
+    double rotDeadband = 0.05;
 
     private static CommandSwerveDrivetrain s_Swerve = TunerConstants.DriveTrain;
 
@@ -67,7 +72,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
             configs.SupplyCurrentLimit = 20;
             configs.SupplyCurrentLimitEnable = true;
-            configs.StatorCurrentLimit = 30;
+            configs.StatorCurrentLimit = 40;
             configs.StatorCurrentLimitEnable = true;
             
             module.getDriveMotor().getConfigurator().apply(configs);
@@ -100,12 +105,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     public double scaledDeadBand(double input) {
-        return (deadbandFactor * Math.pow(input, 3)) + (1 - deadbandFactor) * input;
+        return (2 * (deadbandFactor * Math.pow(input, 3)) + (1 - deadbandFactor) * input);
     }
 
     public void resetOdo(Pose2d pose){
-        resetOdoUtil(pose);
-        resetOdoUtil(pose);
         resetOdoUtil(pose);
     }
 
@@ -129,8 +132,21 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         autoStartPose = pose;
     }
 
+    @AutoLogOutput(key = "Swerve/States/Measured")
+    private SwerveModuleState[] getModuleStates() {
+        SwerveModuleState[] states = new SwerveModuleState[4];
+        for (int i = 0; i < 4; i++) {
+            states[i] = Modules[i].getCurrentState();
+        }
+        return states;
+    }
+
+    @AutoLogOutput(key = "Swerve/Odometry/Pose")
+    public Pose2d getPose(){
+        return s_Swerve.m_odometry.getEstimatedPosition();
+    }
+
     @Override
     public void periodic() {
-            SmartDashboard.putNumber("bruh",1);
         }
     }
