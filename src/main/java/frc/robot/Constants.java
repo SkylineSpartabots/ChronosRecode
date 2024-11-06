@@ -11,7 +11,8 @@ public final class Constants {
     public static final double triggerDeadzone = 0.2;
 
     public static final class HardwarePorts {
-        
+        public static final int pneumaticsHub = 16;
+
         public static final int frontLeftSteer = 1;
         public static final int frontLeftDrive = 2;
 
@@ -30,7 +31,7 @@ public final class Constants {
         public static final int frontRightCancoder = 12;
 
 
-        public static final int intake = 41;
+        public static final int intake = 11;
 
         public static final int leftIndexer = 21;
         public static final int rightIndexer = 22;

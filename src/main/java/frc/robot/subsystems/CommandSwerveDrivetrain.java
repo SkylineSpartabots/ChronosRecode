@@ -99,7 +99,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         .withVelocityX(scaledDeadBand(driverLX))
         .withVelocityY(scaledDeadBand(driverLY))
         .withRotationalRate(scaledDeadBand(driverRX) * Constants.MaxAngularRate)
-        .withDeadband(Constants.MaxSpeed * 0.05)
+        .withDeadband(0.1)
         .withRotationalDeadband(Constants.MaxAngularRate * 0.05)
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     }
