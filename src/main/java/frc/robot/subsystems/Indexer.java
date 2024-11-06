@@ -37,8 +37,8 @@ public class Indexer extends SubsystemBase {
      * Creates a new Indexer.
      */
     public Indexer() {
-        m_leaderIndexer = new TalonFX(Constants.HardwarePorts.leftIndexer); //TODO set the correct ID
-        m_followerIndexer = new TalonFX(Constants.HardwarePorts.rightIndexer); //TODO set the correct ID
+        m_leaderIndexer = new TalonFX(Constants.HardwareIDs.leftIndexer); //TODO set the correct ID
+        m_followerIndexer = new TalonFX(Constants.HardwareIDs.rightIndexer); //TODO set the correct ID
 
         m_followerIndexer.setControl(new Follower(m_leaderIndexer.getDeviceID(), false)); // TODO not sure which direction
 

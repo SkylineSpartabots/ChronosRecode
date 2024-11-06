@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
     }
 
     public Intake() {
-        m_Intake = new TalonFX(Constants.HardwarePorts.intake);
+        m_Intake = new TalonFX(Constants.HardwareIDs.intake);
 
         configMotor(m_Intake, false);
     }
