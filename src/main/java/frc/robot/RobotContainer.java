@@ -24,7 +24,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Indexer.IndexerStates;
 import frc.robot.subsystems.Intake.IntakeState;
-import frc.robot.subsystems.Pneumatics;
 
 public class RobotContainer {
 
@@ -64,7 +63,6 @@ public class RobotContainer {
   private final Indexer s_Indexer = Indexer.getInstance();
   private final Intake s_Intake = Intake.getInstance();
   private final Shooter s_Shooter = Shooter.getInstance();
-  private final Pneumatics s_Pneumatics = Pneumatics.getInstance();
 
   // WHY ARE THE INSTANCES NOT IN THE BOILER OF EACH ONE OF THESE!!! -iggy
 
