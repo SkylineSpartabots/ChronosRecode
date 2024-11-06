@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 public final class Constants {
     
     public static double MaxSpeed = 6; //random number, need to get actual value
@@ -8,12 +10,8 @@ public final class Constants {
     public static final double stickDeadband = 0.05;
     public static final double triggerDeadzone = 0.2;
 
-    public static final class PneumaticIDs {
+    public static final class HardwarePorts {
         public static final int pneumaticsHub = 16;
-        public static final int solenoid = 1; // Channels
-    }
-    
-    public static final class HardwareIDs {
 
         public static final int frontLeftSteer = 1;
         public static final int frontLeftDrive = 2;

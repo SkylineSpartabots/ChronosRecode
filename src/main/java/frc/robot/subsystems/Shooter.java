@@ -45,8 +45,8 @@ public class Shooter extends SubsystemBase {
      * Constructor
      */
     public Shooter() {
-        m_leaderShooter = new TalonFX(Constants.HardwareIDs.leftShooter);
-        m_followerShooter = new TalonFX(Constants.HardwareIDs.rightShooter);
+        m_leaderShooter = new TalonFX(Constants.HardwarePorts.leftShooter);
+        m_followerShooter = new TalonFX(Constants.HardwarePorts.rightShooter);
 
         m_followerShooter.setControl(new Follower(m_leaderShooter.getDeviceID(), true)); // TODO not sure which direction
 

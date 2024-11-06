@@ -13,9 +13,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.*;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.CommandFactory;
+import frc.robot.commands.SetIndexer;
+import frc.robot.commands.SetIntake;
+import frc.robot.commands.SetShooter;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -99,9 +102,6 @@ public class RobotContainer {
     driver.rightTrigger().onTrue(CommandFactory.Shoot());
     driver.leftTrigger().onTrue(CommandFactory.IntakeIndex());
 
-    driver.povDown().onTrue(new SetSolenoid(false));
-    driver.povUp().onTrue(new SetSolenoid(true));
-    
     // driver.rightTrigger().onTrue(Comma\ndFactory.Shoot());
     // driver.a().onTrue(intake);
     // driver.x().onTrue(index or smth idk);
