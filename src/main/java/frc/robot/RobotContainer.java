@@ -99,8 +99,8 @@ public class RobotContainer {
     driver.rightTrigger().onTrue(CommandFactory.Shoot());
     driver.leftTrigger().onTrue(CommandFactory.IntakeIndex());
 
-    driver.povDown().onTrue(new SetSolenoid(false));
-    driver.povUp().onTrue(new SetSolenoid(true));
+    driver.povUp().onTrue(new InstantCommand(() -> s_Pneumatics.setSolenoid(true)));
+    driver.povDown().onTrue(new InstantCommand(() -> s_Pneumatics.setSolenoid(false)));
     
     // driver.rightTrigger().onTrue(Comma\ndFactory.Shoot());
     // driver.a().onTrue(intake);
