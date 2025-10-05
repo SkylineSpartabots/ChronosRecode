@@ -25,17 +25,17 @@ public class CommandFactory {
         );
     }
 
-    public static Command Index() {
-        return new ParallelCommandGroup(
-            new SetIndexer(IndexerStates.INDEX),
-            Commands.waitSeconds(1.0),
-            new SetIndexer(IndexerStates.OFF)
-        );
-    }
+    // public static Command Index() {
+    //     return new ParallelCommandGroup(
+    //         new SetIndexer(IndexerStates.INDEX),
+    //         Commands.waitSeconds(1.0),
+    //         new SetIndexer(IndexerStates.OFF)
+    //     );
+    // }
     public static Command AllOff(){
         return new ParallelCommandGroup(
             new SetIndexer(IndexerStates.OFF),
-            new SetIntake(IntakeState.OFF),
+            // new SetIntake(IntakeState.OFF),
             new SetShooter(0)
         );
     }

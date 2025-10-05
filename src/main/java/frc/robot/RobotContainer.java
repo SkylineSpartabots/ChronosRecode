@@ -79,11 +79,14 @@ public class RobotContainer {
     drivetrain.applyRequest(() -> drivetrain.drive(-driver.getLeftY(), -driver.getLeftX(), -driver.getRightX()) // Drive counterclockwise with negative X (left)
     ));
     
-    driver.a().onTrue(new SetIntake(IntakeState.ON));
-    driver.x().onTrue(CommandFactory.Index());
+    // driver.a().onTrue(new SetIntake(IntakeState.ON));
+    // driver.x().onTrue(CommandFactory.Index());
     driver.b().onTrue(CommandFactory.AllOff());
 
     driver.rightTrigger().onTrue(CommandFactory.Shoot());
+    driver.rightBumper().whileTrue(new SetIndexer(IndexerStates.INDEX));
+    driver.leftBumper().whileTrue(new SetIndexer(IndexerStates.REV));
+
     // driver.a().onTrue(intake);
     // driver.x().onTrue(index or smth idk);
     // driver.b().onTrue();
