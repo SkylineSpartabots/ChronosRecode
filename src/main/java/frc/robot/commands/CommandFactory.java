@@ -16,7 +16,7 @@ public class CommandFactory {
 
     public static Command Shoot() {
         return new SequentialCommandGroup(
-            new SetShooter(10500)
+            new SetShooter(21000)
             // Commands.waitSeconds(1.0),
             //  new SetIndexer(IndexerStates.INDEX),
             // Commands.waitSeconds(2.0),

@@ -83,9 +83,8 @@ public class RobotContainer {
     // driver.a().onTrue(new SetIntake(IntakeState.ON));
     // driver.x().onTrue(CommandFactory.Index());
     driver.b().onTrue(CommandFactory.AllOff());
-    driver.a().onTrue(new InstantCommand(() -> Constants.HardwarePorts.rightIndexer += 1));
 
-    driver.rightTrigger().onTrue(CommandFactory.Shoot());
+    driver.rightTrigger().whileTrue(CommandFactory.Shoot());
     driver.rightBumper().whileTrue(new SetIndexer(IndexerStates.INDEX));
     driver.leftBumper().whileTrue(new SetIndexer(IndexerStates.REV));
 
