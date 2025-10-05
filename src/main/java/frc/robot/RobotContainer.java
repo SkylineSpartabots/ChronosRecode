@@ -9,6 +9,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -82,6 +83,7 @@ public class RobotContainer {
     // driver.a().onTrue(new SetIntake(IntakeState.ON));
     // driver.x().onTrue(CommandFactory.Index());
     driver.b().onTrue(CommandFactory.AllOff());
+    driver.a().onTrue(new InstantCommand(() -> Constants.HardwarePorts.rightIndexer += 1));
 
     driver.rightTrigger().onTrue(CommandFactory.Shoot());
     driver.rightBumper().whileTrue(new SetIndexer(IndexerStates.INDEX));

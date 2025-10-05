@@ -32,8 +32,8 @@ public final class Constants {
 
         public static final int intake = 11;
 
-        public static final int leftIndexer = 21;
-        public static final int rightIndexer = 53;
+        public static int leftIndexer = 22;
+        public static int rightIndexer = 22;
 
         public static final int leftShooter = 31;
         public static final int rightShooter = 32;
