@@ -16,12 +16,12 @@ public class CommandFactory {
 
     public static Command Shoot() {
         return new SequentialCommandGroup(
-            new SetShooter(10500),
-            Commands.waitSeconds(1.0),
-             new SetIndexer(IndexerStates.INDEX),
-            Commands.waitSeconds(2.0),
-            new SetShooter(0),
-            new SetIndexer(IndexerStates.OFF)
+            new SetShooter(10500)
+            // Commands.waitSeconds(1.0),
+            //  new SetIndexer(IndexerStates.INDEX),
+            // Commands.waitSeconds(2.0),
+            // new SetShooter(0),
+            // new SetIndexer(IndexerStates.OFF)
         );
     }
 
