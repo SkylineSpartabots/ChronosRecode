@@ -11,7 +11,7 @@ public class SetShooter extends Command {
     public SetShooter(double velocity) {
         m_Shooter = Shooter.getInstance();
 
-        this.velocity = velocity;
+        this.velocity = -velocity;
 
         addRequirements(m_Shooter);
     }
